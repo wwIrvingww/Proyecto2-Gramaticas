@@ -2,7 +2,7 @@
 
 ## Estructura para gramáticas
 - % significa epsilom como el proyecto anterior
-
+```
 CFG: {
     "V": ["S","A","B"...],      // Variables
     "T": ["a","b","c"..."%"],   // Símbolos terminales
