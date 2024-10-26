@@ -4,13 +4,14 @@ from cyk import cyk_main  # Importamos el algoritmo CYK
 from chomsky import chomsky  # Importamos el algoritmo de conversión a CNF
 
 # Función para construir el Parse Tree desde la matriz CYK
-def build_parse_tree(matrix, CNF, start_symbol, i=0, j=None):
+def build_parse_tree(matrix, CNF, start_symbol, w, i=0, j=None):
     if j is None:
         j = len(matrix) - 1  # La longitud de la cadena - 1
     
-    # Si estamos en un terminal, devolvemos un árbol con el terminal
+    # Si estamos en un terminal, devolvemos un árbol con el terminal correspondiente
     if i == j:
-        return Tree(matrix[i][j][0], [matrix[i][j][0]])
+        terminal = w[i]  # El terminal en la posición actual de la cadena
+        return Tree(matrix[i][j][0], [terminal])
 
     # Encontrar la combinación que generó el símbolo en la posición (i, j)
     for k in range(i, j):
@@ -19,8 +20,8 @@ def build_parse_tree(matrix, CNF, start_symbol, i=0, j=None):
                 if len(rsltVar) == 2:  # Para producciones binarias
                     if (rsltVar[0] in matrix[i][k]) and (rsltVar[1] in matrix[k + 1][j]):
                         # Crear subárboles recursivamente
-                        left_subtree = build_parse_tree(matrix, CNF, start_symbol, i, k)
-                        right_subtree = build_parse_tree(matrix, CNF, start_symbol, k + 1, j)
+                        left_subtree = build_parse_tree(matrix, CNF, start_symbol, w, i, k)
+                        right_subtree = build_parse_tree(matrix, CNF, start_symbol, w, k + 1, j)
                         return Tree(var, [left_subtree, right_subtree])
 
     return Tree(start_symbol, [])  # Devolver un árbol vacío en caso de no encontrar
@@ -35,7 +36,7 @@ def create_and_display_parse_tree(CNF, w):
         return None
 
     # Construir el árbol de parseo
-    parse_tree = build_parse_tree(matrix, CNF, CNF["S"])
+    parse_tree = build_parse_tree(matrix, CNF, CNF["S"], w)
 
     # Mostrar el árbol gráficamente usando nltk
     parse_tree.pretty_print()
