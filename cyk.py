@@ -25,7 +25,6 @@ def cyk_main(CNF, w):
                 if(w[i] in production):
                     matrix[i][i].append(var)
                 
-    print(matrix)
     # CYK other iteration     
     for l in range(1,n):
         for i in range(n-l):
