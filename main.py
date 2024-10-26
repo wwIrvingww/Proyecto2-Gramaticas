@@ -5,11 +5,11 @@ V 1.0
 Irving Acosta 22
 Diego Duarte 22075
 José Marchena 22
-
 """
 
 import json
-from chomsky import chomsky
+from chomsky import chomsky  # Importamos la función de transformación a CNF
+from Parse_Tree import create_and_display_parse_tree  # Importamos la función de creación y visualización del Parse Tree
 
 # Leer el archivo JSON
 with open('CFG_example.json', 'r') as file:
@@ -56,7 +56,7 @@ def convertir_a_json(gramatica_str):
 
 # Gramática de ejemplo
 gramatica_bnf = """
-S → NP VP NP
+S → NP VP
 VP → VP PP
 VP → V NP
 VP → cooks | drinks | eats | cuts
@@ -73,6 +73,12 @@ Det → a | the
 
 # Convertir la gramática a JSON
 gramatica_json = convertir_a_json(gramatica_bnf)
+
+# Convertir la gramática a Forma Normal de Chomsky
 chomsky(gramatica_json)
 
+# Cadena de entrada
+cadena = ["the", "cat", "eats", "a", "cake"]
 
+# Generar y mostrar el Parse Tree para la cadena dada
+create_and_display_parse_tree(gramatica_json, cadena)
