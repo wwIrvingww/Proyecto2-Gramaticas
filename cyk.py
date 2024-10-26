@@ -1,3 +1,4 @@
+import json
 def printMatrix(matrix, cadena):
     for i in range(len(matrix)):
         tem = cadena[i]+" "
@@ -30,11 +31,9 @@ def cyk_main(CNF, w):
             for k in range(i,j):
                 for var in CNF["V"]:
                     for rsltVar in CNF["P"][var]:
-                        if(len(rsltVar)>1):
-                            print(rsltVar[0],matrix[i][k])
-                            print(rsltVar[1],matrix[k+1][j])
-                            print("")
-                            if(rsltVar[0] in matrix[i][k]) and (rsltVar[1] in matrix[k+1][j]):
+                        rslt = rsltVar.split(" ")
+                        if(len(rslt)>1):
+                            if(rslt[0] in matrix[i][k]) and (rslt[1] in matrix[k+1][j]):
                                 if not (var in matrix[i][j]):
                                     matrix[i][j].append(var)
             
@@ -45,3 +44,4 @@ def cyk_main(CNF, w):
     else:
         print("La cadena NO es acepatada")
         return (False, [])
+    
