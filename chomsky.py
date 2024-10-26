@@ -1,17 +1,18 @@
 import re
 
 def chomsky(gramatica):
+    # Paso 1: Agregar el símbolo inicial adicional S1
     print("***START***")
     previous_starter = gramatica['S']
-    # Paso 1: Agregar el símbolo inicial adicional S1
     gramatica['V'].append("S1")
     gramatica['P']['S1'] = [[gramatica['S']]] 
     gramatica['S'] = "S1"
     print("\n \tSe agrego nuevo estado:" + gramatica['S'])
     print("\n \tSe concluyó el paso START")
     
-    print("\n***BIN***")
+    
     # Paso 2: Transformar producciones largas en binarias
+    print("\n***BIN***")
     nuevas_producciones = {}
     nuevo_simbolo_idx = 1  # Para crear nuevas variables
     
@@ -41,6 +42,8 @@ def chomsky(gramatica):
     gramatica['P'].update(nuevas_producciones)
     print("\n\tSe concluyó el paso BIN")
     
+    
+    # Paso 3: Eliminar producciones a epsilon
     print("\n***DEL-E***")
     variables_nulas = set()
      
@@ -61,10 +64,12 @@ def chomsky(gramatica):
                 print("\tSe eliminó epsilon en:", variable)
     
     print("\n\tSe concluyó el paso DEL-E")
-  
+    
+    # Paso 3: Eliminar producciones unitarias
     print("\n***UNIT***")
     producciones_unitarias = {}
     
+    # Paso 3A: Encontrar las prodcucciones unitarias
     for variable, producciones in gramatica['P'].items():
         for produccion in producciones:
             if len(produccion) == 1 and produccion[0] in gramatica['P']:  # Es una producción unitaria
@@ -74,7 +79,7 @@ def chomsky(gramatica):
                 
     print("\n\tProducciones Unitarias:", producciones_unitarias)
 
-    # Paso 2: Reemplazar producciones unitarias con las producciones correspondientes
+    # Paso 3B: Reemplazar producciones unitarias con las producciones correspondientes
     for variable, unitaria in producciones_unitarias.items():
         for prod in unitaria:
             if prod in gramatica['P']:
@@ -84,13 +89,41 @@ def chomsky(gramatica):
                         gramatica['P'][variable].append(nueva_produccion)  # Agregar nueva producción
                 print(f"\tSe reemplazaron las producciones unitarias de {variable} con las producciones de {prod}")
 
-    # Paso 3: Eliminar las producciones unitarias de la gramática
+    # Paso 3C: Eliminar las producciones unitarias de la gramática
     for variable in producciones_unitarias.keys():
         gramatica['P'][variable] = [p for p in gramatica['P'][variable] if len(p) != 1 or p[0] not in gramatica['P']]
 
     print("\n\tSe concluyó el paso UNIT")
     
     print("\n***USELESS***\n")
+    generativas = set()
+
+    # Encontrar todas las producciones que son generativas
+    for variable, producciones in gramatica['P'].items():
+        for produccion in producciones:
+            if all(simbolo not in gramatica['P'] for simbolo in produccion):  # Solo terminales
+                generativas.add(variable)
+   
+   # Repetir hasta que no haya cambios
+    cambio = True
+    while cambio:
+        cambio = False
+        for variable, producciones in gramatica['P'].items():
+            if variable not in generativas:
+                for produccion in producciones:
+                    if all(simbolo in generativas or simbolo not in gramatica['P'] for simbolo in produccion):
+                        generativas.add(variable)
+                        cambio = True
+                        break
+    
+    #  Eliminar variables no generativas
+    for variable in list(gramatica['P'].keys()):
+        if variable not in generativas:
+            del gramatica['P'][variable]
+            if variable in gramatica['V']:
+                del gramatica['V'][gramatica['V'].index(variable)]
+            print(f"\tSe eliminó la variable no generativa: {variable}")
+            
     alcanzables = set()
     to_visit = [gramatica['S']]  # Usar una lista como stack
 
@@ -104,7 +137,7 @@ def chomsky(gramatica):
                     if simbolo in gramatica['P'] and simbolo not in alcanzables:
                         to_visit.append(simbolo)  # Agregar simbolos no visitados a la lista
 
-    # 3. Eliminar variables no alcanzables
+    # Eliminar variables no alcanzables
     for variable in list(gramatica['P'].keys()):
         if variable not in alcanzables:
             del gramatica['P'][variable]
@@ -112,25 +145,32 @@ def chomsky(gramatica):
                 del gramatica['V'][gramatica['V'].index(variable)] 
             print(f"\tSe eliminó la variable no alcanzable: {variable}")
     
+    
+    
     print("\n\tSe concluyó el paso USELESS \n")
+    
+    print(gramatica)
 
                 
 
 # Ejemplo de gramática
-#gramatica = {
- #   'V': ['S', 'VP', 'PP', 'NP', 'V', 'P', 'N', 'Det'],
-  #  'T': ['cooks', 'drinks', 'eats', 'cuts', 'in', 'with', 'he', 'she', 'a', 'the', 'cat', 'dog', 'beer', 'cake', 'juice', 'meat', 'soup', 'fork', 'knife', 'oven', 'spoon'],
-   # 'S': 'S',
-    #'P': {
-     #   'S': [['NP', 'VP']],
-      #  'VP': [['VP', 'PP'], ['V', 'NP'],['cooks'], ['drinks'], ['eats'], ['cuts']],
-       # 'PP': [['P', 'NP']],
-        #'NP': [['Det', 'N'], ['he'], ['she']],
-        #'V': [['cooks'], ['drinks'], ['eats'], ['cuts']],
-        #'P': [['in'], ['with']],
-        #'N': [['cat'], ['dog'], ['beer'], ['cake'], ['juice'], ['meat'], ['soup'], ['fork'], ['knife'], ['oven'], ['spoon']],
-        #'Det': [['a'], ['the']]
-    #}
-#}
+gramatica = {
+    'V': ['S', 'VP', 'PP', 'NP', 'V', 'P', 'N', 'Det', 'D', 'DD'],
+    'T': ['cooks', 'drinks', 'eats', 'cuts', 'in', 'with', 'he', 'she', 'a', 'the', 'cat', 'dog', 'beer', 'cake', 'juice', 'meat', 'soup', 'fork', 'knife', 'oven', 'spoon'],
+    'S': 'S',
+    'P': {
+        'S': [['NP', 'VP']],
+        'VP': [['VP', 'PP'], ['V', 'NP'],['DD'],['cooks'], ['drinks'], ['eats'], ['cuts']],
+        'PP': [['P', 'NP']],
+        'NP': [['Det', 'N'], ['he'], ['she']],
+        'V': [['cooks'], ['drinks'], ['eats'], ['cuts']],
+        'P': [['in'], ['with']],
+        'N': [['cat'], ['dog'], ['beer'], ['cake'], ['juice'], ['meat'], ['soup'], ['fork'], ['knife'], ['oven'], ['spoon']],
+        'Det': [['a'], ['the']],
+        'D': [['DD']],
+        'DD': [['D']]
+        
+    }
+}
 
-#chomsky(gramatica)
+chomsky(gramatica)
