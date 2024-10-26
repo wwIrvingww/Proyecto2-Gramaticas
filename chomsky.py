@@ -154,23 +154,23 @@ def chomsky(gramatica):
                 
 
 # Ejemplo de gramática
-gramatica = {
-    'V': ['S', 'VP', 'PP', 'NP', 'V', 'P', 'N', 'Det', 'D', 'DD'],
-    'T': ['cooks', 'drinks', 'eats', 'cuts', 'in', 'with', 'he', 'she', 'a', 'the', 'cat', 'dog', 'beer', 'cake', 'juice', 'meat', 'soup', 'fork', 'knife', 'oven', 'spoon'],
-    'S': 'S',
-    'P': {
-        'S': [['NP', 'VP']],
-        'VP': [['VP', 'PP'], ['V', 'NP'],['DD'],['cooks'], ['drinks'], ['eats'], ['cuts']],
-        'PP': [['P', 'NP']],
-        'NP': [['Det', 'N'], ['he'], ['she']],
-        'V': [['cooks'], ['drinks'], ['eats'], ['cuts']],
-        'P': [['in'], ['with']],
-        'N': [['cat'], ['dog'], ['beer'], ['cake'], ['juice'], ['meat'], ['soup'], ['fork'], ['knife'], ['oven'], ['spoon']],
-        'Det': [['a'], ['the']],
-        'D': [['DD']],
-        'DD': [['D']]
+# gramatica = {
+#     'V': ['S', 'VP', 'PP', 'NP', 'V', 'P', 'N', 'Det', 'D', 'DD'],
+#     'T': ['cooks', 'drinks', 'eats', 'cuts', 'in', 'with', 'he', 'she', 'a', 'the', 'cat', 'dog', 'beer', 'cake', 'juice', 'meat', 'soup', 'fork', 'knife', 'oven', 'spoon'],
+#     'S': 'S',
+#     'P': {
+#         'S': [['NP', 'VP']],
+#         'VP': [['VP', 'PP'], ['V', 'NP'],['DD'],['cooks'], ['drinks'], ['eats'], ['cuts']],
+#         'PP': [['P', 'NP']],
+#         'NP': [['Det', 'N'], ['he'], ['she']],
+#         'V': [['cooks'], ['drinks'], ['eats'], ['cuts']],
+#         'P': [['in'], ['with']],
+#         'N': [['cat'], ['dog'], ['beer'], ['cake'], ['juice'], ['meat'], ['soup'], ['fork'], ['knife'], ['oven'], ['spoon']],
+#         'Det': [['a'], ['the']],
+#         'D': [['DD']],
+#         'DD': [['D']]
         
-    }
-}
+#     }
+# }
 
-chomsky(gramatica)
+# chomsky(gramatica)
