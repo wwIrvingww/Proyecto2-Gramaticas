@@ -9,12 +9,11 @@ José Marchena 22
 """
 
 import json
+from chomsky import chomsky
 
 # Leer el archivo JSON
 with open('CFG_example.json', 'r') as file:
     gramatica = json.load(file)
-    
-print(gramatica)
 
 def convertir_a_json(gramatica_str):
     no_terminales = set()
@@ -57,7 +56,7 @@ def convertir_a_json(gramatica_str):
 
 # Gramática de ejemplo
 gramatica_bnf = """
-S → NP VP
+S → NP VP NP
 VP → VP PP
 VP → V NP
 VP → cooks | drinks | eats | cuts
@@ -74,8 +73,6 @@ Det → a | the
 
 # Convertir la gramática a JSON
 gramatica_json = convertir_a_json(gramatica_bnf)
+chomsky(gramatica_json)
 
-print(gramatica_json)
 
-# Mostrar la gramática en formato JSON
-print(json.dumps(gramatica_json, indent=4))
