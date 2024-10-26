@@ -21,19 +21,20 @@ def cyk_main(CNF, w):
     # Se itera por la identidad de la matriz
     for i in range(n):
         for var in CNF["V"]:
-            if(w[i] in CNF["P"][var]):
-                matrix[i][i].append(var)
-            
+            for production in CNF["P"][var]:
+                if(w[i] in production):
+                    matrix[i][i].append(var)
+                
+    print(matrix)
     # CYK other iteration     
     for l in range(1,n):
         for i in range(n-l):
             j = i+l
             for k in range(i,j):
                 for var in CNF["V"]:
-                    for rsltVar in CNF["P"][var]:
-                        rslt = rsltVar.split(" ")
-                        if(len(rslt)>1):
-                            if(rslt[0] in matrix[i][k]) and (rslt[1] in matrix[k+1][j]):
+                    for rsltVar in CNF["P"][var]:                    
+                        if(len(rsltVar)>1):
+                            if(rsltVar[0] in matrix[i][k]) and (rsltVar[1] in matrix[k+1][j]):
                                 if not (var in matrix[i][j]):
                                     matrix[i][j].append(var)
             

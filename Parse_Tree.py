@@ -27,9 +27,6 @@ def build_parse_tree(matrix, CNF, start_symbol, i=0, j=None):
 
 # Función principal para crear el árbol y validarlo
 def create_and_display_parse_tree(CNF, w):
-    # Convertir la gramática a la Forma Normal de Chomsky (CNF)
-    chomsky(CNF)  # Modifica la gramática en CNF
-    
     # Ejecutar el algoritmo CYK para obtener validez y la matriz
     valid, matrix = cyk_main(CNF, w)
     
