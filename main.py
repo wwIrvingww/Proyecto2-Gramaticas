@@ -71,8 +71,19 @@ gramatica_json = convertir_a_json(gramatica_bnf)
 # Convertir la gramática a Forma Normal de Chomsky
 chomsky(gramatica_json)
 
-# Cadena de entrada
-cadena = ["the", "cat", "eats", "a", "cake"]
+# Cadenas de entrada:
+
+    # Aceptadas y semanticamente correctas
+c1 = ["the", "cat", "drinks", "the","soup"]
+c2 = ["he", "cuts", "the", "cake", "with", "a","knife"]
+
+    # Aceptadas y semanticamente incorrectas
+c3 = ["a", "beer", "cuts", "she"]
+c4 = ["he", "eats", "he", "in", "he"]
+
+    # No aceptadas
+c5 = ["she", "sleeps", "with", "the", "cat"]
+c6 = ["the", "dog", "eats", "meat"]
 
 # Generar y mostrar el Parse Tree para la cadena dada
-create_and_display_parse_tree(gramatica_json, cadena)
+create_and_display_parse_tree(gramatica_json, c1)

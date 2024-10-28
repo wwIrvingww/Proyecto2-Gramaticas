@@ -150,6 +150,7 @@ def chomsky(gramatica):
     print("\n\tSe concluyó el paso USELESS \n")
     
     print(gramatica)
+    print("")
 
                 
 
