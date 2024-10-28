@@ -6,14 +6,8 @@ Irving Acosta 22
 Diego Duarte 22075
 José Marchena 22398
 """
-
-import json
 from chomsky import chomsky  # Importamos la función de transformación a CNF
 from Parse_Tree import create_and_display_parse_tree  # Importamos la función de creación y visualización del Parse Tree
-
-# Leer el archivo JSON
-with open('CFG_example.json', 'r') as file:
-    gramatica = json.load(file)
 
 def convertir_a_json(gramatica_str):
     no_terminales = set()
@@ -56,7 +50,7 @@ def convertir_a_json(gramatica_str):
 
 # Gramática de ejemplo
 gramatica_bnf = """
-S → NP VP
+S → NP VP 
 VP → VP PP
 VP → V NP
 VP → cooks | drinks | eats | cuts

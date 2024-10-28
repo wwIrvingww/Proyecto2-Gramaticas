@@ -1,4 +1,3 @@
-import json
 def printMatrix(matrix, cadena):
     for i in range(len(matrix)):
         tem = cadena[i]+" "
