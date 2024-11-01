@@ -1,4 +1,12 @@
 # Proyecto2-Gramaticas
+## Descripcion del proyecto
+Este repositorio contiene una serie de programas capaces de convertir una serie de producciones representarivas de una gramatica libre de contexto en un modelo corrible en python con el proposito de verificar si una cadena e pertenece a dicha gramatica.
+
+Los pasos que toma el programa son los siguientes:
+ - Simplificar Gramatica (eliminando producciones unitarias, simbolos inalcanzables, etc)
+ - Convertir a forma normal de chomsky
+ - Aplicar algoritmo CYK para comprobar que una cadena w pertenece o no a la gramatica.
+ - Generar parsing tree para demostrar las producciones unitarias capaces de derivar ma cadena w, en el caso que pertenezca al lenguaje.
 
 ## Estructura para gramáticas
 - % significa epsilom como el proyecto anterior
